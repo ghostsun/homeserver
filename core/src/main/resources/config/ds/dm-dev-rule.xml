@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	classpath:spring/spring-beans-2.5.xsd"
+	default-autowire="byName">
+	<bean id="shardRule" class="com.alipay.zdal.rule.config.beans.AppRule">
+		<property name="masterRule" ref="shardRWRule" />
+	</bean>
+
+	<bean id="shardRWRule" class="com.alipay.zdal.rule.config.beans.ShardRule">
+		<property name="tableRules">
+			<map>
+				<entry key="dm_acct_balance" value-ref="dmAcctBalanceTableRule" />
+				<entry key="acct_master" value-ref="dmAcctMasterTableRule" />
+				<entry key="acct_master_addon" value-ref="dmAcctMasterTableRule" />
+				<entry key="acct_balance" value-ref="dmAcctMasterTableRule" />
+				<entry key="acct_paymitem" value-ref="dmAcctMasterTableRule" />
+				<entry key="acct_transfig" value-ref="dmAcctMasterTableRule" />
+				<entry key="card_master" value-ref="dmCardMasterTableRule" />
+				<entry key="card_acct" value-ref="dmCardMasterTableRule" />
+				<entry key="bca_transtype" value-ref="bcaTranstypeTableRule" />
+				
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dmAcctBalanceTableRule" class="com.alipay.zdal.rule.config.beans.TableRule"
+		init-method="init">
+		<property name="tbSuffix" value="resetForEachDB:[_00-_01]" />
+		<property name="dbIndexes" value="master_0,master_1" />
+		<property name="dbRuleArray">
+			<list>
+				<value>
+					return Long.parseLong(#CONTRACT_INT#) % 2;
+				</value>
+			</list>
+		</property>
+		<property name="tbRuleArray">
+			<list>
+				<value>
+ 					return ((Long)(Long.parseLong(#CONTRACT_INT#) / 100)) % 2;
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dmAcctMasterTableRule" class="com.alipay.zdal.rule.config.beans.TableRule"
+		init-method="init">
+		<property name="tbSuffix" value="resetForEachDB:[_00-_15]" />
+		<property name="dbIndexes" value="master_0,master_1" />
+		<property name="dbRuleArray">
+			<list>
+				<value>
+					 return com.cmbc.corebank.dm.dao.shardrule.AcctMasterRuleParser.parserDbIndex(#CONTRACT_INT#); 
+				</value>
+			</list>
+		</property>
+		<property name="tbRuleArray">
+			<list>
+				<value>
+ 					 return com.cmbc.corebank.dm.dao.shardrule.AcctMasterRuleParser.parserTbIndex(#CONTRACT_INT#);
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="bcaTranstypeTableRule" class="com.alipay.zdal.rule.config.beans.TableRule"
+		init-method="init">
+		<property name="dbIndexes" value="master_0,master_1" />
+		<property name="dbRuleArray">
+			<list>
+				<value>
+					 return 0;
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dmCardMasterTableRule" class="com.alipay.zdal.rule.config.beans.TableRule"
+		init-method="init">
+		<property name="tbSuffix" value="resetForEachDB:[_00-_15]" />
+		<property name="dbIndexes" value="master_0,master_1,master_0,master_1,master_0,master_1,master_0,master_1,master_0,master_1,master_0,master_1,master_0,master_1,master_0,master_1" />
+		<property name="dbRuleArray">
+			<list>
+				<value>
+					return com.cmbc.corebank.dm.dao.shardrule.CardMasterShardRuleParser.parserDbIndex(#CARD_ID#);
+				</value>
+			</list>
+		</property>
+		<property name="tbRuleArray">
+			<list>
+				<value>
+ 					return com.cmbc.corebank.dm.dao.shardrule.CardMasterShardRuleParser.parserTbIndex(#CARD_ID#);
+				</value>
+			</list>
+		</property>
+	</bean>
+</beans>
