@@ -13,12 +13,6 @@
   <name>home-core</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-  
-	<dependency>
-		<groupId>commons-lang</groupId>
-		<artifactId>commons-lang</artifactId>
-		<version>2.6</version>
-	</dependency>
     		
   </dependencies>
 </project>

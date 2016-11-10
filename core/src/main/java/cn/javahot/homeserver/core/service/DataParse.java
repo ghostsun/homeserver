@@ -6,6 +6,6 @@ public interface DataParse {
 	
 	public PMSData parse(String sourceData);
 	
-	public PMSData parse(byte[] byteData);
+//	public PMSData parse(byte[] byteData);
 
 }

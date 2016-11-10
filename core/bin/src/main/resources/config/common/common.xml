@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd ">
+        
+        <import resource="classpath:/config/ds/dm-datasource.xml"/>
+        <import resource="classpath:/config/cs/dm-coreservice.xml"/>
+        <import resource="classpath:/config/bs/dm-businessservice.xml"/>
+        <import resource="classpath:/config/as/dm-applicationservice.xml"/>
+        
+        <!--
+        <import resource="classpath:/config/ds/dm-rule.xml"/>
+        -->
+        
+</beans>

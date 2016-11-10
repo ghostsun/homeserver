@@ -6,11 +6,15 @@ package cn.javahot.homeserver.core.model;
  *
  */
 public class PMSData {
+	
+	public static final String SPLIT = ",";
+	public static final String FIRST_CHAR = "42";
+	public static final String SECOND_CHAR = "4d";
 	/**
 	 * 起始符1
 	 * 0x42（固定）
 	 */
-	private byte start;
+	private byte first;
 	/**
 	 * 起始符2
 	 * 0x4d（固定）
@@ -86,11 +90,30 @@ public class PMSData {
 	 * 校验码=起始符1+起始符2+。。。+数据13低八位
 	 */
 	private byte[] checkCode = new byte[2];
-	public byte getStart() {
-		return start;
+	/**
+	 * 版本号
+	 */
+	private byte version;
+	/**
+	 * 错误代码
+	 */
+	private byte error;
+	/**
+	 * 错误编码
+	 */
+	private String errorCode = null;
+	/**
+	 * 错误信息
+	 */
+	private String errorMessage = null;
+	
+	
+
+	public byte getFirst() {
+		return first;
 	}
-	public void setStart(byte start) {
-		this.start = start;
+	public void setFirst(byte first) {
+		this.first = first;
 	}
 	public byte getSecond() {
 		return second;
@@ -182,6 +205,34 @@ public class PMSData {
 	public void setCheckCode(byte[] checkCode) {
 		this.checkCode = checkCode;
 	}
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	public byte getVersion() {
+		return version;
+	}
+	public void setVersion(byte version) {
+		this.version = version;
+	}
+	public byte getError() {
+		return error;
+	}
+	public void setError(byte error) {
+		this.error = error;
+	}
+	
+//	public String toString(){
+//		return "first: " + first + ", second: " + second + ", "
+//	}
 	
 	
 }
